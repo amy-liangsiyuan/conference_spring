@@ -1,0 +1,42 @@
+server:
+  port: 9001
+  tomcat:
+    max-http-post-size: 10MB
+    max-swallow-size: 10MB
+spring:
+  application:
+    name: encrypt
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
+
+zuul:
+  #      path: /server/** #配置请求URL的请求规则
+  #      serviceId: conference-server #指定Eureka注册中心中的服务id
+  #      strip-prefix: true #所有的/server的请求都进行转发
+  #      sentiviteHeaders:
+  #      customSensitiveHeaders: true #让zuul网关处理cookie和重定向
+  routes:
+      conference-server: /server/**
+
+eureka:
+  instance:
+    #开启ip优先
+    prefer-ip-address: true
+  client:
+    #开启注册
+    register-with-eureka: true
+    #开启抓取
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# Disable Hystrix timeout globally (for all services)
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+

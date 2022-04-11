@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/conference?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 23333333
+  application:
+    name: conference-server
+  redis:
+    host: 127.0.0.1
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
+server:
+  port: 9002
+  tomcat:
+    max-swallow-size: 10MB
+    max-http-post-size: 10MB
+
+eureka:
+  instance:
+    #开启ip优先
+    prefer-ip-address: true
+  client:
+    #开启注册
+    register-with-eureka: true
+    #开启抓取
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  page-size-zero: true
+  auto-dialect: true
