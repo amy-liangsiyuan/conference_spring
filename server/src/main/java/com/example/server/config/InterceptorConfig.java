@@ -9,9 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorConfig implements WebMvcConfigurer {
 
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthenticationInterceptor())
+        registry.addInterceptor(new AuthenticationInterceptor());
 //                .excludePathPatterns("/file/**")
-                .addPathPatterns("/**");
 
     }
 

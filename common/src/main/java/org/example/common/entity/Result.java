@@ -7,7 +7,7 @@ import lombok.ToString;
 
 /**
  * @Classname Result
- * @Description
+ * @Description2
  * @Version 1.0.0
  * @Date 2021/12/2 15:38
  * @Created by Amy

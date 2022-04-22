@@ -37,3 +37,17 @@ CREATE TABLE `user`
     `create_Time` date NULL DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `menu_record`;
+CREATE TABLE `menu_record`
+(
+    `id`           varchar(50) NOT NULL COMMENT 'ID',
+    `level`        int(2) NULL DEFAULT 1 COMMENT '菜单等级',
+    `sort`         int(2) NULL DEFAULT 1 COMMENT '菜单位置',
+    `pid`          varchar(50) DEFAULT NULL COMMENT 'pid',
+    `label`        varchar(255) NULL DEFAULT NULL COMMENT '菜单名',
+    `children_num` int(2) DEFAULT NULL COMMENT '子菜单数量',
+    `content`      LONGTEXT COMMENT '内容',
+    conference_id  varchar(40) NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

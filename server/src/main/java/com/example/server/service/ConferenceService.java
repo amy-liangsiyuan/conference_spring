@@ -1,6 +1,7 @@
 package com.example.server.service;
 import com.github.pagehelper.PageInfo;
 import org.example.common.entity.QueryPage;
+import org.example.common.entity.Result;
 import org.example.common.po.Conference;
 import org.example.common.po.User;
 import org.example.common.vo.ConferenceVO;
@@ -31,4 +32,7 @@ public interface ConferenceService {
 
     //更新用户头像
     boolean updateFirstPicture(String path,String id);
+
+    ///改变会议状态
+    public Result changeState(String id);
 }

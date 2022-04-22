@@ -7,6 +7,7 @@ import com.example.server.service.ConferenceService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.example.common.entity.QueryPage;
+import org.example.common.entity.Result;
 import org.example.common.po.Conference;
 
 import org.example.common.po.User;
@@ -63,6 +64,7 @@ public class ConferenceImp implements ConferenceService {
         conference.setOwnerName(user.getName());
         conference.setPhone(user.getPhone());
         conference.setMail(user.getMail());
+        conference.setState(1);
         conferenceDao.insert(conference);
         return true;
     }
@@ -81,17 +83,17 @@ public class ConferenceImp implements ConferenceService {
 
     @Override
     public List<Conference> getMyConference(User user) {
-        QueryWrapper<Conference> wrapper=new QueryWrapper<>();
-        List<Conference> list=conferenceDao.selectList(wrapper);
+        QueryWrapper<Conference> wrapper = new QueryWrapper<>();
+        List<Conference> list = conferenceDao.selectList(wrapper);
         return list;
     }
 
     @Override
     public boolean update_Conference(Conference updates_Conference) {
-        QueryWrapper<Conference> wrapper=new QueryWrapper<>();
-        wrapper.eq("name",updates_Conference.getName());
-        Conference conference=conferenceDao.selectOne(wrapper);
-        BeanUtils.copyProperties(updates_Conference,conference);
+        QueryWrapper<Conference> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", updates_Conference.getName());
+        Conference conference = conferenceDao.selectOne(wrapper);
+        BeanUtils.copyProperties(updates_Conference, conference);
         conference.setCity(updates_Conference.getCity());
         conference.setAddress(updates_Conference.getAddress());
         conference.setDepartment(updates_Conference.getDepartment());
@@ -109,7 +111,7 @@ public class ConferenceImp implements ConferenceService {
     public boolean updateFirstPicture(String path, String id) {
         //如果id为空则直接返回
         if (id.isEmpty()) return false;
-        Conference conference=conferenceDao.selectById(id);
+        Conference conference = conferenceDao.selectById(id);
         if (path.isEmpty()) {
             //如果是空路径，说明是删除操作
             String filePath = System.getProperty("user.dir") + "/File/firstPicture/" + conference.getFirstPicture().trim().substring(conference.getFirstPicture().lastIndexOf("/") + 1);
@@ -124,5 +126,13 @@ public class ConferenceImp implements ConferenceService {
         conference.setFirstPicture(path);
         conferenceDao.updateById(conference);
         return true;
+    }
+
+    @Override
+    public Result changeState(String id) {
+        Conference conference = conferenceDao.selectById(id);
+        conference.setState(conference.getState() == 1 ? 0 : 1);
+        conferenceDao.updateById(conference);
+        return new Result(true,"Change success!");
     }
 }

@@ -47,7 +47,6 @@ public class RsaServiceImpl implements RsaService {
 		try {
 			keyFactory = KeyFactory.getInstance("RSA");
 		} catch (NoSuchAlgorithmException e) {
-			
 			e.printStackTrace();
 		}
 		return keyFactory.getAlgorithm();
