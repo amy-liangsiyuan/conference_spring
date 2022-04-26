@@ -34,5 +34,8 @@ public interface ConferenceService {
     boolean updateFirstPicture(String path,String id);
 
     ///改变会议状态
-    public Result changeState(String id);
+    Result changeState(String id);
+
+    //获取特定会议
+    Result getConference(String id);
 }

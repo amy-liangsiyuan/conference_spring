@@ -3,11 +3,13 @@ package com.example.server.controller;
 
 import com.example.server.annotation.LoginRequired;
 import com.example.server.service.ConferenceService;
+import com.example.server.service.InfoService;
 import com.example.server.service.MenuService;
 import org.example.common.entity.MessageConstant;
 import org.example.common.entity.QueryPage;
 import org.example.common.entity.Result;
 import org.example.common.po.Conference;
+import org.example.common.po.Info;
 import org.example.common.po.Menu;
 import org.example.common.po.User;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-
 /**
  * @author Amy
  * @date 2022-03-16 18:32
- * @description2
+ * @description
  * @package org.example.server.controller
  * @title
  */
@@ -30,10 +31,17 @@ public class ConferenceController {
     ConferenceService conferenceService;
     @Resource
     MenuService menuService;
+    @Resource
+    InfoService infoService;
 
     @GetMapping("/getRecommendList")
     public Result getRecommendList() {
         return new Result(true, "getList success！", MessageConstant.OK, conferenceService.getRecommendList());
+    }
+
+    @GetMapping("/getConference{id}")
+    public Result getConference(@PathVariable String id){
+        return conferenceService.getConference(id);
     }
 
     @GetMapping("/getMyConference")
@@ -79,5 +87,15 @@ public class ConferenceController {
     public Result changeState(@PathVariable String id){
         System.out.println(id);
         return conferenceService.changeState(id);
+    }
+
+    @PostMapping("/updateInfo")
+    public Result updateInfo(@RequestBody List<Info> infoList){
+        return infoService.updateInfo(infoList);
+    }
+
+    @GetMapping("/getInfoList{id}")
+    public Result getInfoList(@PathVariable String id){
+        return infoService.getInfoList(id);
     }
 }

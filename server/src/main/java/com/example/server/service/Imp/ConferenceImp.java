@@ -6,6 +6,7 @@ import com.example.server.dao.ConferenceDao;
 import com.example.server.service.ConferenceService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.example.common.entity.MessageConstant;
 import org.example.common.entity.QueryPage;
 import org.example.common.entity.Result;
 import org.example.common.po.Conference;
@@ -33,6 +34,11 @@ import java.util.List;
 public class ConferenceImp implements ConferenceService {
     @Resource
     private ConferenceDao conferenceDao;
+
+    @Override
+    public Result getConference(String id) {
+        return new Result(true, MessageConstant.OK, "success",conferenceDao.selectById(id));
+    }
 
     @Override
     public List<ConferenceVO> getRecommendList() {
@@ -77,15 +83,13 @@ public class ConferenceImp implements ConferenceService {
             wrapper.like("name", queryPage.getQueryString());
         PageHelper.startPage(queryPage.getCurrentPage(), queryPage.getPageSize());
         List<Conference> list = conferenceDao.selectList(wrapper);
-        PageInfo<Conference> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        return new PageInfo<>(list);
     }
 
     @Override
     public List<Conference> getMyConference(User user) {
         QueryWrapper<Conference> wrapper = new QueryWrapper<>();
-        List<Conference> list = conferenceDao.selectList(wrapper);
-        return list;
+        return conferenceDao.selectList(wrapper);
     }
 
     @Override

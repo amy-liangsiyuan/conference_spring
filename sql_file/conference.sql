@@ -1,5 +1,4 @@
-SET
-FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `conference`;
 CREATE TABLE `conference`
 (
@@ -51,3 +50,14 @@ CREATE TABLE `menu_record`
     conference_id  varchar(40) NOT NULL,
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `info`;
+CREATE TABLE `info`
+(
+    `id`    varchar(50) NOT NULL COMMENT 'id',
+    `title`    varchar(50) NUll DEFAULT NULL COMMENT '标题',
+    `content` varchar(240) NULL DEFAULT NULL COMMENT '内容',
+    `conference_id` varchar(50) NULL DEFAULT NULL COMMENT '会议id',
+    `create_time` Timestamp NULL DEFAULT NULL COMMENT '创建时间',
+    PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
