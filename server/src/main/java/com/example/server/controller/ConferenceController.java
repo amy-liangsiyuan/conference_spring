@@ -41,7 +41,7 @@ public class ConferenceController {
 
     @GetMapping("/getConference{id}")
     public Result getConference(@PathVariable String id){
-        return conferenceService.getConference(id);
+       return conferenceService.getConference(id);
     }
 
     @GetMapping("/getMyConference")

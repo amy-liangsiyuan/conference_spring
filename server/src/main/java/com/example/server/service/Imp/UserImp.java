@@ -36,7 +36,6 @@ public class UserImp implements UserService {
     private BCryptPasswordEncoder encoder;
 
     @Override
-    @IpRequired
     public User login(User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.select("id", "name", "phone", "state", "avatar", "mail", "password", "create_time");

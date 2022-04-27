@@ -61,3 +61,23 @@ CREATE TABLE `info`
     `create_time` Timestamp NULL DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`) USING BTREE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `participant`;
+CREATE TABLE `participant`
+(
+    `id`    varchar(50) NOT NULL COMMENT 'id',
+    `name`    varchar(20) NUll DEFAULT NULL COMMENT '标题',
+    `mail` varchar(240) NULL DEFAULT NULL COMMENT '邮箱',
+    `phone` varchar(20) NULL DEFAULT NULL COMMENT '电话号码',
+    `password` varchar(255) NOT NULL COMMENT '密码',
+    PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `participant_conference`;
+CREATE TABLE `participant_conference`
+(
+    `id`    varchar(50) NOT NULL COMMENT 'id',
+    `participant_id`    varchar(50) NUll DEFAULT NULL COMMENT '参与者id',
+    `conference_id`    varchar(50) NUll DEFAULT NULL COMMENT '会议id',
+    PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
