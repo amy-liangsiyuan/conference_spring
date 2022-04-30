@@ -85,7 +85,6 @@ public class ConferenceController {
 
     @GetMapping("/changeState{id}")
     public Result changeState(@PathVariable String id){
-        System.out.println(id);
         return conferenceService.changeState(id);
     }
 

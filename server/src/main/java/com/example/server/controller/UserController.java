@@ -85,7 +85,6 @@ public class UserController {
     @PostMapping("update_user")
     @LoginRequired
     public Result updateUser(@RequestBody User user){
-        System.out.println(user);
         return userService.updateUser(user);
     }
 

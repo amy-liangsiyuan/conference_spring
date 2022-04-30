@@ -30,7 +30,14 @@ import java.util.Map;
 public class MenuImp implements MenuService {
     @Resource
     MenuDao menuDao;
-
+    /**
+     * 方法说明
+     * @author Amy
+     * @date 2022/4/28 14:02
+     * @description 用于更新用户菜单列表
+     * @param menuList
+     * @return org.example.common.entity.Result
+     */
     @Override
     public Result updateMenu(List<Menu> menuList) {
         if (menuList.size() == 0) return new Result(false, "The Menu could not be empty!");
@@ -43,7 +50,15 @@ public class MenuImp implements MenuService {
         }
         return new Result(true, "success");
     }
-
+    
+    /**
+     * 方法说明
+     * @author Amy
+     * @date 2022/4/28 14:02
+     * @description 内部掉用函数，用于重构数据库查询记录为Tree结构并返回
+     * @param menu
+     * @return void
+     */
     private void getChildren(Menu menu) {
         MenuRecord menuRecord = new MenuRecord();
         BeanUtils.copyProperties(menu, menuRecord);
@@ -53,7 +68,14 @@ public class MenuImp implements MenuService {
             this.getChildren(child);
         }
     }
-
+    /**
+     * 方法说明
+     * @author Amy
+     * @date 2022/4/28 14:03
+     * @description 获取对应会议的菜单列表
+     * @param id
+     * @return org.example.common.entity.Result
+     */
     @Override
     public Result getMenu(String id) {
         QueryWrapper<MenuRecord> wrapper = new QueryWrapper<>();
@@ -75,6 +97,15 @@ public class MenuImp implements MenuService {
         }
         return new Result(true, MessageConstant.OK, "success",rootList);
     }
+    /**
+     * 方法说明
+     * @author Amy
+     * @date 2022/4/28 14:03
+     * @description 内部掉用算法，用于重构树形结构
+     * @param menu
+ * @param menuList
+     * @return org.example.common.po.Menu
+     */
     private Menu setChildren(Menu menu,List<Menu> menuList) {
         List<Menu> childrenMenus=new ArrayList<>();
         for (Menu menuNode : menuList) {

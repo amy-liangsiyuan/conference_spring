@@ -57,7 +57,6 @@ public class InfoImp implements InfoService {
         QueryWrapper<Info> wrapper=new QueryWrapper<>();
         wrapper.eq("conference_id",id).orderByAsc("create_time");
         List<Info> infoList=infoDao.selectList(wrapper);
-        System.out.println(infoList);
         return new Result(true,"success", MessageConstant.OK,infoList);
     }
 }

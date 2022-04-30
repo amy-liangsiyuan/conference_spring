@@ -8,11 +8,15 @@ spring:
     name: conference-server
   redis:
     host: 127.0.0.1
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 server:
   port: 9002
   tomcat:
-    max-swallow-size: 10MB
-    max-http-post-size: 10MB
+    max-swallow-size: 15MB
+    max-http-post-size: 15MB
 
 eureka:
   instance:

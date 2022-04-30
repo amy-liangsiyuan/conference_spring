@@ -29,4 +29,19 @@ public class ParticipantController {
     public Result Register(@RequestBody Participant participant, @PathVariable String id) {
         return participantService.Register(participant, id);
     }
+
+    @GetMapping("/getParticipantsList{id}")
+    public Result getParticipantsList(@PathVariable String id) {
+        return participantService.getParticipantsList(id);
+    }
+
+    @GetMapping("/changeSate{conference_id}/{participant_id}")
+    public Result changeState(@PathVariable String conference_id, @PathVariable String participant_id) {
+        return participantService.changeState(conference_id, participant_id);
+    }
+
+    @GetMapping("/changeReferee{conference_id}/{participant_id}")
+    public Result changeReferee(@PathVariable String conference_id, @PathVariable String participant_id) {
+        return participantService.changeReferee(conference_id, participant_id);
+    }
 }

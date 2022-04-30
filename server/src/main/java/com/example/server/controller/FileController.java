@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.annotation.LoginRequired;
 import com.example.server.service.ConferenceService;
+import com.example.server.service.PaperService;
 import com.example.server.service.UserService;
 import org.example.common.entity.MessageConstant;
 import org.example.common.entity.Result;
@@ -24,13 +25,15 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/file")
-
 public class FileController {
     @Resource
     UserService userService;
 
     @Resource
     ConferenceService conferenceService;
+
+    @Resource
+    PaperService paperService;
 
     @RequestMapping(value = "/add_avatar")
     @LoginRequired
@@ -56,10 +59,9 @@ public class FileController {
             e.printStackTrace();
         }
         String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/avatar/" + fileName;
-        userService.updateAvatar(url,user);
-        return new Result(true,MessageConstant.OK,"upload success!",url);
+        userService.updateAvatar(url, user);
+        return new Result(true, MessageConstant.OK, "upload success!", url);
     }
-
 
     @DeleteMapping("delete_avatar")
     @LoginRequired
@@ -93,9 +95,10 @@ public class FileController {
             e.printStackTrace();
         }
         String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/firstPicture/" + fileName;
-        conferenceService.updateFirstPicture(url,request.getHeader("conferenceId"));
-        return new Result(true,MessageConstant.OK,"upload success!",url);
+        conferenceService.updateFirstPicture(url, request.getHeader("conferenceId"));
+        return new Result(true, MessageConstant.OK, "upload success!", url);
     }
+
     @DeleteMapping("delete_firstPicture")
     @LoginRequired
     public Result deleteFirstPicture(HttpServletRequest request) {
@@ -104,4 +107,21 @@ public class FileController {
         else return new Result(false, "error!");
     }
 
+    @PostMapping("/submitPaper{conferenceId}/{participantId}")
+    public Result submitPaper(@RequestParam("file") MultipartFile paper, @PathVariable String conferenceId, @PathVariable String participantId) {
+        return paperService.submitPaper(paper,conferenceId,participantId);
+    }
+    @PostMapping("/reuploadPaper{participantId}")
+    public Result reuploadPaper(@RequestParam("file") MultipartFile paper, @PathVariable String participantId){
+        return paperService.reuploadPaper(paper,participantId);
+    }
+    @GetMapping("/getParticipantPaperList{conferenceId}/{participantId}")
+    public Result getParticipantPaperList(@PathVariable String conferenceId, @PathVariable String participantId){
+        return paperService.getParticipantPaperList(conferenceId,participantId);
+    }
+
+    @DeleteMapping("/deletePaper{paperId}")
+    public Result deletePaper(@PathVariable String paperId){
+        return paperService.deletePaper(paperId);
+    }
 }

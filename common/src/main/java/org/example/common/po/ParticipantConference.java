@@ -14,4 +14,6 @@ public class ParticipantConference {
     private String id;
     private String participantId;
     private String conferenceId;
+    private Integer state;
+    private Integer reviewing;
 }
