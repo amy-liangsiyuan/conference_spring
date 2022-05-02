@@ -127,7 +127,7 @@ public class ParticipantImp implements ParticipantService {
         QueryWrapper<ParticipantConference> wrapper = new QueryWrapper<>();
         wrapper.eq("conference_id", id);
         for (ParticipantConference participantConference : participantConferenceDao.selectList(wrapper)) {
-            ParticipantVo participantVo=new ParticipantVo();
+            ParticipantVo participantVo = new ParticipantVo();
             BeanUtils.copyProperties(participantDao.selectById(participantConference.getParticipantId()), participantVo);
             participantVo.setState(participantConference.getState());
             participantVo.setReviewing(participantConference.getReviewing());
@@ -138,40 +138,52 @@ public class ParticipantImp implements ParticipantService {
 
     /**
      * 方法说明
-     * @author Amy
-     * @date 2022/4/29 18:22
-     * @description
+     *
      * @param conference_id
      * @param participant_id
      * @return org.example.common.entity.Result
+     * @author Amy
+     * @date 2022/4/29 18:22
+     * @description
      */
     @Override
-    public Result changeState(String conference_id,String participant_id) {
-        QueryWrapper<ParticipantConference> participantConferenceQueryWrapper=new QueryWrapper<>();
-        participantConferenceQueryWrapper.eq("conference_id",conference_id)
-                .eq("participant_id",participant_id);
+    public Result changeState(String conference_id, String participant_id) {
+        QueryWrapper<ParticipantConference> participantConferenceQueryWrapper = new QueryWrapper<>();
+        participantConferenceQueryWrapper.eq("conference_id", conference_id)
+                .eq("participant_id", participant_id);
         ParticipantConference participantConference = participantConferenceDao.selectOne(participantConferenceQueryWrapper);
         participantConference.setState(participantConference.getState() == 1 ? 0 : 1);
         participantConferenceDao.updateById(participantConference);
-        return new Result(true,"Change success!");
+        return new Result(true, "Change success!");
     }
+
     /**
      * 方法说明
-     * @author Amy
-     * @date 2022/4/29 18:22
-     * @description
+     *
      * @param conference_id
      * @param participant_id
      * @return org.example.common.entity.Result
+     * @author Amy
+     * @date 2022/4/29 18:22
+     * @description
      */
     @Override
     public Result changeReferee(String conference_id, String participant_id) {
-        QueryWrapper<ParticipantConference> participantConferenceQueryWrapper=new QueryWrapper<>();
-        participantConferenceQueryWrapper.eq("conference_id",conference_id)
-                .eq("participant_id",participant_id);
+        QueryWrapper<ParticipantConference> participantConferenceQueryWrapper = new QueryWrapper<>();
+        participantConferenceQueryWrapper.eq("conference_id", conference_id)
+                .eq("participant_id", participant_id);
         ParticipantConference participantConference = participantConferenceDao.selectOne(participantConferenceQueryWrapper);
         participantConference.setReviewing(participantConference.getReviewing() == 1 ? 0 : 1);
         participantConferenceDao.updateById(participantConference);
-        return new Result(true,"Change success!");
+        return new Result(true, "Change success!");
+    }
+
+    @Override
+    public Result checkReferee(String conferenceId, String participantId) {
+        QueryWrapper<ParticipantConference> wrapper = new QueryWrapper<>();
+        wrapper.eq("conference_id", conferenceId)
+                .eq("participant_id", participantId);
+        if (participantConferenceDao.selectOne(wrapper).getReviewing() == 1) return new Result(true, "success");
+        else return new Result(false,"Not Referee");
     }
 }

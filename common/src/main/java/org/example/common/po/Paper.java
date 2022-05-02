@@ -19,6 +19,7 @@ public class Paper {
     private String name;//original name
     private String pathName;
     private String path;
+    private String url;
     @DateTimeFormat(pattern = "yyyy-MM-dd MM:mm")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date createTime;

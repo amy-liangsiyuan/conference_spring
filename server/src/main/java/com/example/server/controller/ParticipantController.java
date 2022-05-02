@@ -44,4 +44,10 @@ public class ParticipantController {
     public Result changeReferee(@PathVariable String conference_id, @PathVariable String participant_id) {
         return participantService.changeReferee(conference_id, participant_id);
     }
+
+    @GetMapping("/checkReferee{conferenceId}/{participantId}")
+    public Result checkReferee(@PathVariable String conferenceId, @PathVariable String participantId){
+        return participantService.checkReferee(conferenceId,participantId);
+    }
+
 }

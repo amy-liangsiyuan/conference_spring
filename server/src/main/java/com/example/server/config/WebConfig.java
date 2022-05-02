@@ -12,6 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
      */
     private final String avatarPath=System.getProperty("user.dir")+"/File/avatar/";
     private final String firstPicturePath=System.getProperty("user.dir")+"/File/firstPicture/";
+    private final String paperPath=System.getProperty("user.dir")+"/File/paper/";
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /**
@@ -25,6 +26,9 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/firstPicture/**")
                 .addResourceLocations("file:"+firstPicturePath);
+
+        registry.addResourceHandler("/paper/**")
+                .addResourceLocations("file:"+paperPath);
     }
 
 }

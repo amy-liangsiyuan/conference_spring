@@ -27,4 +27,6 @@ public interface ParticipantService {
     //改变身份
     Result changeReferee(String conference_id,String participant_id);
 
+    //check是否为审稿人
+    Result checkReferee(String conferenceId,String participantId);
 }

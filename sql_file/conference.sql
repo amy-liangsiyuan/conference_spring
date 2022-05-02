@@ -97,6 +97,7 @@ CREATE TABLE `paper`
     `name`           varchar(255) NOT NULL COMMENT '文件名',
     `path_name`      varchar(255) NOT NULL COMMENT '存储名',
     `path`           varchar(255) NOT NULL COMMENT '存储路径',
+    `url`           varchar(255) NOT NULL COMMENT '路由',
     `submitter_id`   varchar(50)  NOT NULL COMMENT '提交者id',
     `referee_id`     varchar(50)  NUll DEFAULT NULL COMMENT '审核人id',
     `submitter_name` varchar(20)  NOT NULL COMMENT '提交人名字',

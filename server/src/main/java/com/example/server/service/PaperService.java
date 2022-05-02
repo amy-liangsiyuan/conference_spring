@@ -18,15 +18,25 @@ public interface PaperService {
     Result getConferencePaperList(String conferenceId);
 
     //审核人员论文获取接口
-    Result getRefereePaperList(String RefereeId);
+    Result getRefereePaperList(String conferenceId,String RefereeId);
 
     //论文提交接口
-    Result submitPaper(MultipartFile paper,String conferenceId,String participantId);
+    Result submitPaper(MultipartFile paper,String conferenceId,String participantId,String url);
 
     //论文重传接口
-    Result reuploadPaper(MultipartFile paper,String paperId);
+    Result reuploadPaper(MultipartFile paper,String paperId,String url);
 
     //论文删除接口
     Result deletePaper(String paperId);
+
+    //设置为reviewing
+    Result setReviewing(String paperId,String RefereeId);
+
+    //设为UnReview
+    Result setUnReviewing(String paperId);
+
+    //修改状态
+    Result setPaperState(String id,Integer state);
+
 
 }

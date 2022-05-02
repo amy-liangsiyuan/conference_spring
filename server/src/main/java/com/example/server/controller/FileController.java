@@ -4,6 +4,7 @@ import com.example.server.annotation.LoginRequired;
 import com.example.server.service.ConferenceService;
 import com.example.server.service.PaperService;
 import com.example.server.service.UserService;
+import com.netflix.ribbon.proxy.annotation.Http;
 import org.example.common.entity.MessageConstant;
 import org.example.common.entity.Result;
 import org.example.common.po.User;
@@ -108,20 +109,49 @@ public class FileController {
     }
 
     @PostMapping("/submitPaper{conferenceId}/{participantId}")
-    public Result submitPaper(@RequestParam("file") MultipartFile paper, @PathVariable String conferenceId, @PathVariable String participantId) {
-        return paperService.submitPaper(paper,conferenceId,participantId);
+    public Result submitPaper(@RequestParam("file") MultipartFile paper, @PathVariable String conferenceId, @PathVariable String participantId, HttpServletRequest request) {
+        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/paper/";
+        return paperService.submitPaper(paper, conferenceId, participantId, url);
     }
+
     @PostMapping("/reuploadPaper{participantId}")
-    public Result reuploadPaper(@RequestParam("file") MultipartFile paper, @PathVariable String participantId){
-        return paperService.reuploadPaper(paper,participantId);
+    public Result reuploadPaper(@RequestParam("file") MultipartFile paper, @PathVariable String participantId, HttpServletRequest request) {
+        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/paper/";
+        return paperService.reuploadPaper(paper, participantId, url);
     }
+
     @GetMapping("/getParticipantPaperList{conferenceId}/{participantId}")
-    public Result getParticipantPaperList(@PathVariable String conferenceId, @PathVariable String participantId){
-        return paperService.getParticipantPaperList(conferenceId,participantId);
+    public Result getParticipantPaperList(@PathVariable String conferenceId, @PathVariable String participantId) {
+        return paperService.getParticipantPaperList(conferenceId, participantId);
     }
 
     @DeleteMapping("/deletePaper{paperId}")
-    public Result deletePaper(@PathVariable String paperId){
+    public Result deletePaper(@PathVariable String paperId) {
         return paperService.deletePaper(paperId);
+    }
+
+    @GetMapping("/getConferencePapers{conferenceId}")
+    public Result getConferencePapers(@PathVariable String conferenceId) {
+        return paperService.getConferencePaperList(conferenceId);
+    }
+
+    @GetMapping("/getRefereePapers{conferenceId}/{refereeId}")
+    public Result getRefereePapers(@PathVariable String conferenceId, @PathVariable String refereeId) {
+        return paperService.getRefereePaperList(conferenceId, refereeId);
+    }
+
+    @GetMapping("/setReviewing{paperId}/{refereeId}")
+    public Result setReviewing(@PathVariable String paperId, @PathVariable String refereeId){
+        return paperService.setReviewing(paperId,refereeId);
+    }
+
+    @GetMapping("/setUnReviewing{paperId}")
+    public Result setUnReviewing(@PathVariable String paperId){
+        return paperService.setUnReviewing(paperId);
+    }
+
+    @GetMapping("/setPaperState{id}/{state}")
+    public Result setPaperState(@PathVariable String id, @PathVariable Integer state){
+        return paperService.setPaperState(id,state);
     }
 }
