@@ -145,11 +145,15 @@ public class FileController {
         return paperService.setReviewing(paperId,refereeId);
     }
 
-    @GetMapping("/setUnReviewing{paperId}")
-    public Result setUnReviewing(@PathVariable String paperId){
-        return paperService.setUnReviewing(paperId);
+    @GetMapping("/setUnReviewing{paperId}/{refereeId}")
+    public Result setUnReviewing(@PathVariable String paperId, @PathVariable String refereeId){
+        return paperService.setUnReviewing(paperId,refereeId);
     }
 
+    @GetMapping("/refereeChangeState{id}/{refereeId}/{state}")
+    public Result refereeChangeState(@PathVariable String id, @PathVariable String refereeId, @PathVariable Integer state){
+        return paperService.refereeChangeState(id,refereeId,state);
+    }
     @GetMapping("/setPaperState{id}/{state}")
     public Result setPaperState(@PathVariable String id, @PathVariable Integer state){
         return paperService.setPaperState(id,state);

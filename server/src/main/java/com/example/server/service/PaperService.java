@@ -33,10 +33,12 @@ public interface PaperService {
     Result setReviewing(String paperId,String RefereeId);
 
     //设为UnReview
-    Result setUnReviewing(String paperId);
+    Result setUnReviewing(String paperId,String refereeId);
 
     //修改状态
     Result setPaperState(String id,Integer state);
+
+    Result refereeChangeState(String id,String refereeId,Integer state);
 
 
 }

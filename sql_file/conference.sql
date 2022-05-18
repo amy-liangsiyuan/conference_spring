@@ -30,7 +30,6 @@ CREATE TABLE `user`
     `phone`       varchar(40)  NOT NULL COMMENT '手机号码',
     `name`        varchar(255) NOT NULL COMMENT '用户名称',
     `password`    varchar(255) NULL DEFAULT NULL COMMENT '密码',
-    `role`        int(2)       NULL DEFAULT NULL COMMENT '角色',
     `state`       int(2)       NULL DEFAULT 1 COMMENT '启用状态 0是禁用，1是启用',
     `mail`        varchar(255) NULL DEFAULT NULL COMMENT '邮箱',
     `avatar`      varchar(255)      DEFAULT NULL COMMENT '头像',
@@ -85,7 +84,7 @@ CREATE TABLE `participant_conference`
     `participant_id` varchar(50) NUll DEFAULT NULL COMMENT '参与者id',
     `conference_id`  varchar(50) NUll DEFAULT NULL COMMENT '会议id',
     `state`          integer     NOT NULL COMMENT '状态',
-    `reviewing`      integer     NOT NULL COMMENT '状态',
+    `reviewing`      integer     NOT NULL COMMENT '是否为审稿员',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -97,13 +96,18 @@ CREATE TABLE `paper`
     `name`           varchar(255) NOT NULL COMMENT '文件名',
     `path_name`      varchar(255) NOT NULL COMMENT '存储名',
     `path`           varchar(255) NOT NULL COMMENT '存储路径',
-    `url`           varchar(255) NOT NULL COMMENT '路由',
+    `url`            varchar(255) NOT NULL COMMENT '路由',
     `submitter_id`   varchar(50)  NOT NULL COMMENT '提交者id',
-    `referee_id`     varchar(50)  NUll DEFAULT NULL COMMENT '审核人id',
+    `referee_id1`    varchar(50)  NUll DEFAULT NULL COMMENT '审核人id',
+    `referee_id2`    varchar(50)  NUll DEFAULT NULL COMMENT '审核人id2',
     `submitter_name` varchar(20)  NOT NULL COMMENT '提交人名字',
-    `referee_name`   varchar(20)  NUll DEFAULT NULL COMMENT '审核人名字',
+    `referee_name1`  varchar(20)  NUll DEFAULT NULL COMMENT '审核人名字',
+    `referee_name2`  varchar(20)  NUll DEFAULT NULL COMMENT '审核人名字',
     `conference_id`  varchar(50)  NOT NULL COMMENT '所属会议',
     `state`          integer      NOT NULL COMMENT '状态',
+    `state1`         integer      NOT NULL COMMENT '状态',
+    `state2`         integer      NOT NULL COMMENT '状态',
+    `referee_num`      integer      NOT NULL COMMENT '审稿人人数',
     `create_time`    Timestamp    NULL DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB

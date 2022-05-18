@@ -55,7 +55,10 @@ public class PaperImp implements PaperService {
             return new Result(false, "Submit a maximum of 10 files!");
         Paper newPaper = new Paper();
         newPaper.setCreateTime(new Date());
+        newPaper.setState1(0);
+        newPaper.setState2(0);
         newPaper.setState(0);
+        newPaper.setRefereeNum(0);
         newPaper.setConferenceId(conferenceId);
         newPaper.setSubmitterId(participantId);
         newPaper.setSubmitterName(participantDao.selectById(participantId).getName());
@@ -217,66 +220,115 @@ public class PaperImp implements PaperService {
     @Override
     public Result getRefereePaperList(String conferenceId, String RefereeId) {
         QueryWrapper<Paper> wrapper = new QueryWrapper<>();
-        QueryWrapper<Paper> wrapper1=new QueryWrapper<>();
-        wrapper1.eq("state",0);
         wrapper.eq("conference_id", conferenceId)
-                .eq("referee_id", RefereeId);
-        List<Paper> paperList=paperDao.selectList(wrapper);
-        paperList.addAll(paperDao.selectList(wrapper1));
-        return new Result(true, "success", MessageConstant.OK,paperList);
+                .between("referee_num", 0, 1)
+                .or().eq("referee_id1", RefereeId)
+                .or().eq("referee_id2", RefereeId);
+        List<Paper> paperList = paperDao.selectList(wrapper);
+        return new Result(true, "success", MessageConstant.OK, paperList);
     }
 
     /**
      * 方法说明
-     * @author Amy
-     * @date 2022/5/2 13:57
-     * @description
+     *
      * @param paperId
      * @param refereeId
      * @return org.example.common.entity.Result
+     * @author Amy
+     * @date 2022/5/2 13:57
+     * @description
      */
     @Override
-    public Result setReviewing(String paperId,String refereeId) {
-        Participant referee=participantDao.selectById(refereeId);
-        Paper paper=paperDao.selectById(paperId);
-        paper.setState(1);
-        paper.setRefereeId(referee.getId());
-        paper.setRefereeName(referee.getName());
+    public Result setReviewing(String paperId, String refereeId) {
+        Participant referee = participantDao.selectById(refereeId);
+        Paper paper = paperDao.selectById(paperId);
+        if (paper.getRefereeNum() == 0) {
+            paper.setState1(1);
+            paper.setRefereeId1(referee.getId());
+            paper.setRefereeName1(referee.getName());
+            paper.setRefereeNum(1);
+        } else if (paper.getRefereeNum() == 1) {
+            if (paper.getRefereeId1() == null) {
+                paper.setState1(1);
+                paper.setRefereeId1(referee.getId());
+                paper.setRefereeName1(referee.getName());
+                paper.setRefereeNum(2);
+            } else {
+                paper.setState2(1);
+                paper.setRefereeId2(referee.getId());
+                paper.setRefereeName2(referee.getName());
+                paper.setRefereeNum(2);
+            }
+        }
         paperDao.updateById(paper);
-        return new Result(true,"success");
+        return new Result(true, "success");
     }
 
     /**
      * 方法说明
+     *
+     * @param paperId
+     * @return org.example.common.entity.Result
      * @author Amy
      * @date 2022/5/2 14:24
      * @description
-     * @param paperId
-     * @return org.example.common.entity.Result
      */
     @Override
-    public Result setUnReviewing(String paperId) {
-        Paper paper=paperDao.selectById(paperId);
-        paper.setRefereeName("");
-        paper.setRefereeId("");
-        paper.setState(0);
+    public Result setUnReviewing(String paperId, String refereeId) {
+        Paper paper = paperDao.selectById(paperId);
+        if (paper.getRefereeId1() != null && paper.getRefereeId1().equals(refereeId)) {
+            paper.setRefereeId1(null);
+            paper.setRefereeName1(null);
+            paper.setState1(0);
+            paper.setRefereeNum(paper.getRefereeNum() - 1);
+        } else if (paper.getRefereeId2().equals(refereeId)) {
+            paper.setRefereeId2(null);
+            paper.setRefereeName2(null);
+            paper.setState2(0);
+            paper.setRefereeNum(paper.getRefereeNum() - 1);
+        }
         paperDao.updateById(paper);
-        return new Result(true,"success");
+        return new Result(true, "success");
     }
+
     /**
      * 方法说明
+     *
+     * @param id
+     * @param state
+     * @return org.example.common.entity.Result
      * @author Amy
      * @date 2022/5/2 16:06
      * @description
-     * @param id
- * @param state
-     * @return org.example.common.entity.Result
      */
     @Override
     public Result setPaperState(String id, Integer state) {
-        Paper paper=paperDao.selectById(id);
+        Paper paper = paperDao.selectById(id);
         paper.setState(state);
         paperDao.updateById(paper);
-        return new Result(true,"success");
+        return new Result(true, "success");
+    }
+
+    /**
+     * 方法说明
+     *
+     * @param id
+     * @param refereeId
+     * @param state
+     * @return org.example.common.entity.Result
+     * @author Amy
+     * @date 2022/5/18 18:05
+     * @description
+     */
+    @Override
+    public Result refereeChangeState(String id, String refereeId, Integer state) {
+        Paper paper = paperDao.selectById(id);
+        if (paper.getRefereeId1() != null && paper.getRefereeId1().equals(refereeId)) {
+            paper.setState1(state);
+        } else if (paper.getRefereeId2().equals(refereeId)) {
+            paper.setState2(state);
+        }
+        paperDao.updateById(paper);
+        return new Result(true, "success");
     }
 }
